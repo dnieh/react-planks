@@ -8,6 +8,8 @@ This is currently in development. Use at your own risk.
 #### TODO:
 * Tests
 * Demo
-* Installation instructions
+* Installation Instructions
 * Usage
+* Minify
 * Linting
+* CI
