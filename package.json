@@ -1,6 +1,6 @@
 {
   "name": "react-planks",
-  "version": "1.0.5",
+  "version": "0.0.5",
   "description": "React layout for horizontally sorted asymmetric DOM elements",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,9 @@
     "browserify": "^13.0.0",
     "gulp": "^3.9.1",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url":" https://github.com/dnieh/react-planks.git"
   }
 }
