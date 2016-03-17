@@ -1,6 +1,6 @@
 {
   "name": "react-planks",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React layout for horizontally sorted asymmetric DOM elements",
   "main": "index.js",
   "scripts": {
