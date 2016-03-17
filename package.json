@@ -1,0 +1,28 @@
+{
+  "name": "react-planks",
+  "version": "1.0.2",
+  "description": "React layout for horizontally sorted asymmetric DOM elements",
+  "main": "index.js",
+  "scripts": {
+    "watch": "gulp watch"
+  },
+  "keywords": [
+    "react",
+    "layout",
+    "masonry",
+    "grid",
+    "columns"
+  ],
+  "author": "danielnieh <danielnieh@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
