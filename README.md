@@ -1,7 +1,7 @@
 # react-planks
 A React component to create responsive masonry (pinterest style) layouts. 
 
-#### What's special about planks, and why should I use it?
+**What's special about planks, and why should I use it?**
 * Simple to use: use it to horizontally order any existing components you have.
 * Comes with no-frills: forget about expensive animations that slow down the browser.
 * It's fast and takes advantage of React's built-in ability to optimize renderings.
