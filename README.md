@@ -12,7 +12,6 @@ This project is currently in development. Use at your own risk.
 
 ##### TODO:
 * Tests
-* Minify
 * Linting
 * CI
 
@@ -39,7 +38,7 @@ let elementsArr = [
     /* Array of any other React component/element. Bootstrap 4 cards perhaps? */
 ];
 
-// Optional options
+// Optional. See below.
 let options = {
     'breakpoints': {
         '544': 1,
@@ -54,7 +53,7 @@ let options = {
 };
 
 ReactDOM.render(
-    <Planks options={ options }>{ elementArr }</Planks>,
+    <Planks options={ options }>{ elementsArr }</Planks>,
     document.getElementById('planksNode')
 );
 ```
