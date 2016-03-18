@@ -1,3 +1,3 @@
-var planks = require('./planks');
+var planks = require('./lib/planks');
 
 module.exports = planks;
