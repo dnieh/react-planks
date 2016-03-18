@@ -1,5 +1,4 @@
-// SAMPLE GULPFILE
-
+// Sample Guplfile
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
@@ -7,7 +6,7 @@ var source = require('vinyl-source-stream');
 
 gulp.task('javascript', function() {
     return browserify({
-        entries: './index.js',
+        entries: './index.jsx',
         extensions: ['.js', '.jsx'],
         debug: true
     })
@@ -18,5 +17,5 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./*.js', ['javascript']);
+    gulp.watch('./*.jsx', ['javascript']);
 });
