@@ -358,25 +358,31 @@ export default class Planks extends React.Component {
         console.log('[PLANKS CONTAINER] CURRENT CHILD PLANK WIDTH: ' + this.state.plankWidths[this.state.breakpointKey]);
 
         let containerStyle = { height: this.state.containerHeights[this.state.breakpointKey] };
-        let planks = this.props.children.map((plank, index) => {
-            let styles = this.getPlankStyles(index);
-            let lastPlankHandler = index === React.Children.count(this.props.children) - 1
-                ? this.handleAllHiddenPlanksRendered.bind(this)
-                : (() => null);
+        let planks;
+        
+        if (React.Children.count(this.props.children) > 1) {
+            planks = this.props.children.map((plank, index) => {
+                let styles = this.getPlankStyles(index);
+                let lastPlankHandler = index === React.Children.count(this.props.children) - 1
+                    ? this.handleAllHiddenPlanksRendered.bind(this)
+                    : (() => null);
 
-            return (
-                <Plank
-                    key={ index }
-                    index={ index }
-                    plankStyles={ styles }
-                    plankWidth={ this.state.plankWidths[this.state.breakpointKey] }
-                    updateChildHeight={ this.receiveChildHeight.bind(this) }
-                    handleLastPlank={ lastPlankHandler }
-                >
-                    { plank }
-                </Plank>
-            );
-        });
+                return (
+                    <Plank
+                        key={ index }
+                        index={ index }
+                        plankStyles={ styles }
+                        plankWidth={ this.state.plankWidths[this.state.breakpointKey] }
+                        updateChildHeight={ this.receiveChildHeight.bind(this) }
+                        handleLastPlank={ lastPlankHandler }
+                    >
+                        { plank }
+                    </Plank>
+                );
+            });
+        } else {
+            planks = this.props.children;
+        }
         
         return (
             <div style={ containerStyle } ref={ (c) => this._planksContainer = c }>{ planks }</div>
