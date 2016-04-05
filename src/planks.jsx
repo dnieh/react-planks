@@ -334,6 +334,7 @@ export default class Planks extends React.Component {
     getPlankStyles(index) {
         if (!this.state.allPlanksRendered[this.state.breakpointKey].heightsSet) {
             return {
+                position: 'absolute',
                 visibility: 'hidden',
                 width: this.state.plankWidths[this.state.breakpointKey] + this.props.options.unitType
             };
@@ -341,6 +342,7 @@ export default class Planks extends React.Component {
             let positionStyles = this.state.plankPosition[this.state.breakpointKey][index + ''];
             
             return {
+                position: 'absolute',
                 visibility: 'visible',
                 width: this.state.plankWidths[this.state.breakpointKey] + this.props.options.unitType,
                 left: positionStyles.left + 'rem',
@@ -357,7 +359,10 @@ export default class Planks extends React.Component {
         console.log('[PLANKS CONTAINER] CONTAINER RENDERING...');
         console.log('[PLANKS CONTAINER] CURRENT CHILD PLANK WIDTH: ' + this.state.plankWidths[this.state.breakpointKey]);
 
-        let containerStyle = { height: this.state.containerHeights[this.state.breakpointKey] };
+        let containerStyle = { 
+            height: this.state.containerHeights[this.state.breakpointKey],
+            position: 'relative'
+        };
         let planks;
         
         if (React.Children.count(this.props.children) > 1) {
