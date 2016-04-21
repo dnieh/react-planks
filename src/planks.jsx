@@ -11,12 +11,12 @@ export default class Planks extends React.Component {
         super(props);
 
         let breakpointKey = this.getCurrentBreakpointKey();
-        let planksRendered = {};
+        // let planksRendered = {};
 
-        planksRendered[breakpointKey] = {
+        /*planksRendered[breakpointKey] = {
             hiddenPlanksRendered: false,
             heightsSet: false
-        };
+        };*/
 
         this.validateConfigOptions();
 
@@ -27,7 +27,7 @@ export default class Planks extends React.Component {
             containerWidth: 0,                  // Used to determine widths of planks based on current screen breakpoint
             containerHeights: {},               // Must set height because container element is absolute
             breakpointKey: breakpointKey,       // Current responsive breakpoint
-            allPlanksRendered: planksRendered   // Caches when to unhide by breakpoint
+            allPlanksRendered: {}               // Caches when to unhide by breakpoint
         };
     }
 
@@ -37,13 +37,13 @@ export default class Planks extends React.Component {
      * be quickly rendered.
      */
     componentDidMount() {
-        console.log('[PLANKS CONTAINER] COMPONENT DID MOUNT...');
+        // console.log('[PLANKS CONTAINER] COMPONENT DID MOUNT...');
         let containerWidth = this.getPlankContainerWidth();
         let plankWidths = this.getSinglePlankWidths(containerWidth);
         let planksRendered = this.state.allPlanksRendered;
 
-        console.log('[PLANKS CONTAINER] INITIAL CONTAINER WIDTH: ' + containerWidth);
-        console.log('[PLANKS CONTAINER] INITIAL PLANK WIDTH: ' + plankWidths[this.state.breakpointKey]);
+        // console.log('[PLANKS CONTAINER] INITIAL CONTAINER WIDTH: ' + containerWidth);
+        // console.log('[PLANKS CONTAINER] INITIAL PLANK WIDTH: ' + plankWidths[this.state.breakpointKey]);
         
         // Event listener to calculate dimensions and positions on re-size. Caches results for faster subsequent
         // rendering.
@@ -56,7 +56,7 @@ export default class Planks extends React.Component {
         });
 
         // Force update so that all children's state gets synced with the new width.
-        console.log('[PLANKS CONTAINER] FORCE UPDATE');
+        // console.log('[PLANKS CONTAINER] FORCE UPDATE');
         this.forceUpdate();
     }
 
@@ -66,13 +66,15 @@ export default class Planks extends React.Component {
      *      2. When all their heights have been received and positions have been calculated.
      */
     shouldComponentUpdate() {
-        console.log('[PLANKS CONTAINER] SHOULD COMPONENT UPDATE?');
-        if (!this.state.allPlanksRendered[this.state.breakpointKey].hiddenPlanksRendered) {
-            console.log('[PLANKS CONTAINER] YES, INVISIBLE PLANKS HAVE NOT BEEN RENDERED YET');
+        // console.log('[PLANKS CONTAINER] SHOULD COMPONENT UPDATE?');
+        if (!this.state.allPlanksRendered[this.state.containerWidth] ||
+            !this.state.allPlanksRendered[this.state.containerWidth].hiddenPlanksRendered) {
+            // console.log('[PLANKS CONTAINER] YES, INVISIBLE PLANKS HAVE NOT BEEN RENDERED YET');
             return true;
         }
-        if (!this.state.allPlanksRendered[this.state.breakpointKey].heightsSet) {
-            console.log('[PLANKS CONTAINER] NO, ALL HEIGHTS HAVE NOT BEEN RECEIVED. BYPASSING UPDATE');
+        if (!this.state.allPlanksRendered[this.state.containerWidth] ||
+            !this.state.allPlanksRendered[this.state.containerWidth].heightsSet) {
+            // console.log('[PLANKS CONTAINER] NO, ALL HEIGHTS HAVE NOT BEEN RECEIVED. BYPASSING UPDATE');
             return false;
         }
         return true;
@@ -144,8 +146,8 @@ export default class Planks extends React.Component {
         let singlePlankWidth;
 
         // Check for cached value
-        if (plankWidths[breakpointKey] && plankWidths[breakpointKey].length > 0) {
-            return plankWidths[breakpointKey];
+        if (plankWidths[containerWidth] && plankWidths[containerWidth].length > 0) {
+            return plankWidths[containerWidth];
         }
 
         // To get the width of a single plank, the horizontal padding must be accounted for.
@@ -157,7 +159,7 @@ export default class Planks extends React.Component {
         singlePlankWidth = (containerWidth - ((numColumns - 1) * hPadding * unitRatio)) / numColumns / unitRatio;
         
         // Cache the current value against the breakpoint key
-        plankWidths[breakpointKey] = singlePlankWidth;
+        plankWidths[containerWidth] = singlePlankWidth;
 
         return plankWidths;
     }
@@ -169,16 +171,18 @@ export default class Planks extends React.Component {
     handleAllHiddenPlanksRendered() {
         let planksRendered = this.state.allPlanksRendered;
 
-        console.log('[PLANKS CONTAINER] LAST HIDDEN PLANK RENDERED');
-        planksRendered[this.state.breakpointKey].hiddenPlanksRendered = true;
+        // console.log('[PLANKS CONTAINER] LAST HIDDEN PLANK RENDERED');
+        if (!planksRendered[this.state.containerWidth]) {
+            planksRendered[this.state.containerWidth] = {};
+        }
+        planksRendered[this.state.containerWidth].hiddenPlanksRendered = true;
         this.setState({ allPlanksRendered: planksRendered });
         return true;
     }
 
     /**
      * Screen resizes must handle the re-ordering of cards. If this ordering has already occurred for the existing
-     * data set, use a locally cached version of that particular ordering. By definition if a resize event 
-     * occurs, this.state.breakpointKey and this.state.plankWidths will have been set at least once.
+     * data set, use a locally cached version of that particular ordering.
      * 
      * TODO -- handle orientationchange event for mobile
      */
@@ -190,12 +194,16 @@ export default class Planks extends React.Component {
         // calculations only occur when container width changes. Additionally, setting the current
         // breakpointKey should only occur here and in the constructor.
         if (this.state.containerWidth !== containerWidth) {
-            console.log('[PLANKS CONTAINER] RESIZE DETECTED...');
+            // console.log('[PLANKS CONTAINER] RESIZE DETECTED...');
             let breakpointKey = this.getCurrentBreakpointKey();
+            // console.log('breakpointKey: ', breakpointKey);
+            // console.log('containerWidth: ', containerWidth);
             let planksRendered = this.state.allPlanksRendered;
             let plankWidths = this.getSinglePlankWidths(containerWidth, breakpointKey);
 
-            console.log(planksRendered[breakpointKey]);
+            // console.log('planksWidths', plankWidths);
+            // console.log('planksRendered');
+            console.table(planksRendered);
             if (planksRendered[breakpointKey] !== undefined) {
                 this.setState({ 
                     breakpointKey: breakpointKey,
@@ -228,34 +236,34 @@ export default class Planks extends React.Component {
         let planksRendered = this.state.allPlanksRendered;
         let renderAllPlanks;
 
-        console.log('[PLANKS CONTAINER] RECEIVING CHILD HEIGHT:');
-        console.log('[PLANKS CONTAINER] KEY: ' + key, 'HEIGHT: ' + childHeight);
+        // console.log('[PLANKS CONTAINER] RECEIVING CHILD HEIGHT:');
+        // console.log('[PLANKS CONTAINER] KEY: ' + key, 'HEIGHT: ' + childHeight);
 
-        if (plankHeights[this.state.breakpointKey] === undefined) {
-            plankHeights[this.state.breakpointKey] = {};
+        if (plankHeights[this.state.containerWidth] === undefined) {
+            plankHeights[this.state.containerWidth] = {};
         }
        
         // It is very normal for updated heights to come back to us. This could indicated another image loaded, an 
         // image failing to load, or even new content. In this case we must force update if all the other heights 
         // have already been received.
-        let heightExists = plankHeights[this.state.breakpointKey][key] || false;
+        let heightExists = plankHeights[this.state.containerWidth][key] || false;
 
-        plankHeights[this.state.breakpointKey][key] = childHeight;
+        plankHeights[this.state.containerWidth][key] = childHeight;
 
         this.setState({ plankHeights: plankHeights });
 
-        if (heightExists && this.state.allPlanksRendered[this.state.breakpointKey].heightsSet) {
-            console.log('[PLANKS CONTAINER] UPDATING EXISTING HEIGHT. FORCE UPDATE');
+        if (heightExists && this.state.allPlanksRendered[this.state.containerWidth].heightsSet) {
+            // console.log('[PLANKS CONTAINER] UPDATING EXISTING HEIGHT. FORCE UPDATE');
             this.setPlankPositioning();
             this.forceUpdate();
         }
 
         // Render planks when all the heights have been received.
-        renderAllPlanks = Object.keys(plankHeights[this.state.breakpointKey]).length === this.props.children.length;
+        renderAllPlanks = Object.keys(plankHeights[this.state.containerWidth]).length === this.props.children.length;
 
         // Initialize the rendering flags that corresponds to the two phases of child plank rendering.
-        if (!planksRendered[this.state.breakpointKey]) {
-            planksRendered[this.state.breakpointKey] = {
+        if (!planksRendered[this.state.containerWidth]) {
+            planksRendered[this.state.containerWidth] = {
                 hiddenPlanksRendered: false, 
                 heightsSet: false
             };
@@ -264,7 +272,7 @@ export default class Planks extends React.Component {
         // once we have all the heights of each plank, we can now calculate their absolute positioning.
         if (renderAllPlanks) {
             this.setPlankPositioning();
-            planksRendered[this.state.breakpointKey].heightsSet = true;
+            planksRendered[this.state.containerWidth].heightsSet = true;
         }
 
         this.setState({ 
@@ -278,8 +286,8 @@ export default class Planks extends React.Component {
     setPlankPositioning() {
         let plankPosition = this.state.plankPosition;
 
-        if (!plankPosition[this.state.breakpointKey]) {
-            plankPosition[this.state.breakpointKey] = {};
+        if (!plankPosition[this.state.containerWidth]) {
+            plankPosition[this.state.containerWidth] = {};
         }
 
         let numColumns = this.props.options.breakpoints[this.state.breakpointKey];
@@ -293,12 +301,12 @@ export default class Planks extends React.Component {
         // iterate from left col to right col looking for the shortest col.
         // if all cols are equal height, place in the left most col.
         let [i, col, left] = [0, 0, 0];
-        let plankWidth = this.state.plankWidths[this.state.breakpointKey];
+        let plankWidth = this.state.plankWidths[this.state.containerWidth];
         let hPadding = this.props.options.horizontalPadding;
         let vPadding = this.props.options.verticalPadding;
         let unitRatio = this.props.options.unitType === 'rem' ? 16 : 1;
         for (; i < this.props.children.length; i++) {
-            let plankHeight = this.state.plankHeights[this.state.breakpointKey][i];
+            let plankHeight = this.state.plankHeights[this.state.containerWidth][i];
             let positionStyle = {};
             let shortestColHeight = Math.min.apply(Math, columnHeights);
             let shortestColIndex = columnHeights.indexOf(Math.min.apply(Math, columnHeights));
@@ -310,7 +318,7 @@ export default class Planks extends React.Component {
                 top: topProperty
             };
 
-            plankPosition[this.state.breakpointKey][i] = positionStyle;
+            plankPosition[this.state.containerWidth][i] = positionStyle;
             columnHeights[shortestColIndex] += plankHeight;
             colHeightPadding[shortestColIndex] += vPadding;
 
@@ -323,7 +331,7 @@ export default class Planks extends React.Component {
         let containerHeights = this.state.containerHeights;
 
         greatestHeight += Math.max.apply(Math, colHeightPadding) * unitRatio;
-        containerHeights[this.state.breakpointKey] = greatestHeight;
+        containerHeights[this.state.containerWidth] = greatestHeight;
         
         this.setState({
             plankPosition: plankPosition,
@@ -332,19 +340,20 @@ export default class Planks extends React.Component {
     }
 
     getPlankStyles(index) {
-        if (!this.state.allPlanksRendered[this.state.breakpointKey].heightsSet) {
+        if (!this.state.allPlanksRendered[this.state.containerWidth] ||
+            !this.state.allPlanksRendered[this.state.containerWidth].heightsSet) {
             return {
                 position: 'absolute',
                 visibility: 'hidden',
-                width: this.state.plankWidths[this.state.breakpointKey] + this.props.options.unitType
+                width: this.state.plankWidths[this.state.containerWidth] + this.props.options.unitType
             };
         } else {
-            let positionStyles = this.state.plankPosition[this.state.breakpointKey][index + ''];
+            let positionStyles = this.state.plankPosition[this.state.containerWidth][index + ''];
             
             return {
                 position: 'absolute',
                 visibility: 'visible',
-                width: this.state.plankWidths[this.state.breakpointKey] + this.props.options.unitType,
+                width: this.state.plankWidths[this.state.containerWidth] + this.props.options.unitType,
                 left: positionStyles.left + 'rem',
                 top: positionStyles.top + 'rem'
             };
@@ -356,11 +365,11 @@ export default class Planks extends React.Component {
      * calculated and are simply set here to render based on the current responsive breakpoint.
      */
     render() {
-        console.log('[PLANKS CONTAINER] CONTAINER RENDERING...');
-        console.log('[PLANKS CONTAINER] CURRENT CHILD PLANK WIDTH: ' + this.state.plankWidths[this.state.breakpointKey]);
+        // console.log('[PLANKS CONTAINER] CONTAINER RENDERING...');
+        // console.log('[PLANKS CONTAINER] CURRENT CHILD PLANK WIDTH: ' + this.state.plankWidths[this.state.breakpointKey]);
 
         let containerStyle = { 
-            height: this.state.containerHeights[this.state.breakpointKey],
+            height: this.state.containerHeights[this.state.containerWidth],
             position: 'relative'
         };
         let planks;
@@ -377,7 +386,7 @@ export default class Planks extends React.Component {
                         key={ index }
                         index={ index }
                         plankStyles={ styles }
-                        plankWidth={ this.state.plankWidths[this.state.breakpointKey] }
+                        plankWidth={ this.state.plankWidths[this.state.containerWidth] }
                         updateChildHeight={ this.receiveChildHeight.bind(this) }
                         handleLastPlank={ lastPlankHandler }
                     >

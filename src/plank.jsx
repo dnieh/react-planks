@@ -26,11 +26,11 @@ export default class Plank extends React.Component {
     componentWillReceiveProps(nextProps) {
         // Indicates a responsive resize has occurred. 
         if (this.state.plankWidth !== nextProps.plankWidth) { 
-            console.log('[SINGLE PLANK INDEX ' + this.props.index + '] setting plank width to: ' + nextProps.plankWidth);
+            // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] setting plank width to: ' + nextProps.plankWidth);
             this.setState({ plankWidth: nextProps.plankWidth });
             if (!this.state.breakpointsRendered[this.state.plankWidth]) {
                 if (this.props.handleLastPlank()) {
-                    console.log('[SINGLE PLANK INDEX ' + this.props.index + '] last hidden plank rendered'); 
+                    // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] last hidden plank rendered'); 
                 };
             }
         }
@@ -47,11 +47,11 @@ export default class Plank extends React.Component {
         if (prevState.plankWidth !== this.state.plankWidth) {
             if (!this.previouslyRendered()) {
                 this.updateBreakpointRenderings();
-                console.log('[SINGLE PLANK INDEX ' + this.props.index + '] new width detected... sending new height to planks container...');
+                // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] new width detected... sending new height to planks container...');
                 this.sendHeightToPlanksContainer();
 
             } else {
-                console.log('[SINGLE PLANK INDEX ' + this.props.index + '] change in width detected. previously rendered. nothing to do here.');
+                // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] change in width detected. previously rendered. nothing to do here.');
             }
         }
     }
@@ -72,7 +72,7 @@ export default class Plank extends React.Component {
 
     handleHeightSet() {
         window.requestAnimationFrame(() => {
-            console.log('[SINGLE PLANK INDEX ' + this.props.index + '] height being set (requestAnimationFrame)');
+            // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] height being set (requestAnimationFrame)');
             // If we're here, this assumes that the height has not been previously set for this breakpoint/plank width.
             this.updateBreakpointRenderings();
             this.sendHeightToPlanksContainer();
@@ -84,7 +84,7 @@ export default class Plank extends React.Component {
     }
 
     handleImageLoad() {
-        console.log('[SINGLE PLANK INDEX ' + this.props.index + '] image loaded!');
+        // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] image loaded!');
         this.sendHeightToPlanksContainer(); 
     }
 
@@ -93,7 +93,7 @@ export default class Plank extends React.Component {
      * broken image icon.
      */
     handleImageLoadError() {
-        console.log('[SINGLE PLANK INDEX ' + this.props.index + '] error loading image');
+        // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] error loading image');
         this.sendHeightToPlanksContainer();
     }
 
@@ -104,8 +104,8 @@ export default class Plank extends React.Component {
      *      3. responsive re-size has occurred, potentially starting (1) and (2) over again unless cached
      */
     render() {
-        console.log('[SINGLE PLANK INDEX ' + this.props.index + '] single plank rendering...');
-        console.log('[SINGLE PLANK INDEX ' + this.props.index + '] visibility: ' + this.props.plankStyles.visibility);
+        // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] single plank rendering...');
+        // console.log('[SINGLE PLANK INDEX ' + this.props.index + '] visibility: ' + this.props.plankStyles.visibility);
         return (
             <div
                 onLoad={ this.handleImageLoad.bind(this) }
