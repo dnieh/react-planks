@@ -1,6 +1,6 @@
 # react-planks
 
-![react-planks demo gif](https://github.com/dnieh/react-planks/blob/master/demo/planks-demo.gif)
+![react-planks demo gif](https://github.com/dnieh/react-planks/blob/master/demo/planks-demo2.gif)
 
 
 A React component to create responsive masonry (pinterest style) layouts. 
