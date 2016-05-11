@@ -5,7 +5,7 @@ var source = require('vinyl-source-stream');
 
 gulp.task('javascript', function() {
     return browserify({
-        entries: './app.jsx',
+        entries: './app.js',
         extensions: ['.js', '.jsx'],
         debug: true
     })
@@ -16,5 +16,5 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./*.jsx', ['javascript']);
+    gulp.watch('./*.js', ['javascript']);
 });

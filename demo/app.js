@@ -7,7 +7,7 @@ import { mockData } from './mockData';
 
 let options = {
     'breakpoints': {
-        // '320': 1,
+        '500': 1,
         // '800': 2,
         '1000': 3,
         '1300': 4
